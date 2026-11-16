@@ -90,5 +90,20 @@
     <string name="log_out">Log Out</string>
     <string name="log_out_confirm">Are you sure you want to log out?</string>
     <string name="cancel">Cancel</string>
+    <!-- Notifications -->
+    <string name="notif_section_messages">Messages</string>
+    <string name="notif_enabled">Message notifications</string>
+    <string name="notif_preview">Message preview</string>
+    <string name="notif_sound">Sound</string>
+    <string name="notif_vibrate">Vibrate</string>
+    <string name="notif_preview_hint">With message preview off, notifications show only the sender\'s name and \"New message\".</string>
+    <string name="notif_section_system">System</string>
+    <string name="notif_system_settings">Notification settings in Android</string>
+    <string name="notif_blocked_title">Notifications are turned off</string>
+    <string name="notif_blocked_body">Android is blocking Talkflow\'s notifications. Tap to allow them.</string>
+    <string name="notification_new_message">New message</string>
+    <string name="notification_you">You</string>
+    <string name="channel_messages">Messages</string>
+    <string name="channel_messages_description">New messages in your chats</string>
     <string name="app_version">Talkflow for Android v1.0</string>
 </resources>

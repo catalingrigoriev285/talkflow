@@ -47,6 +47,9 @@ public class ChatActivity extends BaseActivity {
     public static final String EXTRA_CHAT_ID = "com.example.talkflow.extra.CHAT_ID";
     public static final String EXTRA_NAME = "com.example.talkflow.extra.NAME";
 
+    /** Chat currently on screen; its notifications are skipped. */
+    static volatile String openChatId;
+
     /** How many recent messages to keep live; older history can be paged in later. */
     private static final int MESSAGE_LIMIT = 300;
 
@@ -135,6 +138,8 @@ public class ChatActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         if (user == null || chatRef == null) return;
+        openChatId = chatRef.getId();
+        TalkflowMessagingService.cancelChatNotification(this, chatRef.getId());
 
         // Live messages: Firestore keeps a streaming connection open and pushes new
         // messages from either side as soon as they are written.
@@ -168,6 +173,7 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
+        if (chatRef != null && chatRef.getId().equals(openChatId)) openChatId = null;
         if (messagesListener != null) messagesListener.remove();
         if (chatListener != null) chatListener.remove();
         super.onStop();

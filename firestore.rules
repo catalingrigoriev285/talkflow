@@ -23,6 +23,12 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Push-notification device tokens: private to their owner. The Cloud Function reads
+    // them with admin access, which bypasses these rules.
+    match /fcmTokens/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+
     match /chats/{chatId} {
       // Reading a single chat (even one not created yet) only needs membership by id;
       // listing chats requires the query to filter on members.

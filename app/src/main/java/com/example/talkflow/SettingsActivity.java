@@ -1,6 +1,7 @@
 package com.example.talkflow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -25,7 +25,7 @@ public class SettingsActivity extends BaseActivity {
     /** Rows that only show a placeholder for now. */
     private static final int[] PLACEHOLDER_ROWS = {
             R.id.row_phone, R.id.row_email, R.id.row_bio,
-            R.id.row_notifications, R.id.row_privacy, R.id.row_data, R.id.row_chat_settings,
+            R.id.row_privacy, R.id.row_data, R.id.row_chat_settings,
             R.id.row_devices, R.id.row_language,
             R.id.row_ask_question, R.id.row_faq, R.id.row_privacy_policy,
             R.id.change_photo_fab
@@ -56,6 +56,8 @@ public class SettingsActivity extends BaseActivity {
         nightSwitch.setOnCheckedChangeListener((button, checked) -> setNightMode(this, checked));
         findViewById(R.id.row_night_mode).setOnClickListener(v -> nightSwitch.toggle());
 
+        findViewById(R.id.row_notifications).setOnClickListener(v ->
+                startActivity(new Intent(this, NotificationSettingsActivity.class)));
         findViewById(R.id.row_logout).setOnClickListener(v -> confirmLogout());
     }
 
@@ -91,8 +93,7 @@ public class SettingsActivity extends BaseActivity {
                 .setMessage(R.string.log_out_confirm)
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.log_out, (dialog, which) -> {
-                    FirebaseAuth.getInstance().signOut();
-                    openClearingTask(LoginActivity.class);
+                    TalkflowMessagingService.signOut(() -> openClearingTask(LoginActivity.class));
                 })
                 .show();
     }

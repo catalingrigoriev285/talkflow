@@ -1,7 +1,10 @@
 package com.example.talkflow;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -54,6 +59,8 @@ public class ChatListActivity extends BaseActivity {
     private View emptyView;
     private ListenerRegistration chatsListener;
     private ListenerRegistration profileListener;
+    private final ActivityResultLauncher<String> notificationPermission =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> { });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,19 @@ public class ChatListActivity extends BaseActivity {
         list.setAdapter(adapter);
 
         findViewById(R.id.new_message_fab).setOnClickListener(v -> showNewChatDialog());
+
+        TalkflowMessagingService.registerDevice();
+        maybeAskNotificationPermission();
+    }
+
+    /** Android 13+ needs permission to show notifications; ask once, after login. */
+    private void maybeAskNotificationPermission() {
+        if (Build.VERSION.SDK_INT < 33) return;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) return;
+        if (NotificationSettingsActivity.permissionAlreadyAsked(this)) return;
+        NotificationSettingsActivity.markPermissionAsked(this);
+        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
     }
 
     @Override
