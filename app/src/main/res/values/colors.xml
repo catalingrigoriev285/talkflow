@@ -2,4 +2,30 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Talkflow palette (light). Night overrides live in values-night/colors.xml. -->
+    <color name="tf_primary">#3390EC</color>
+    <color name="tf_toolbar">#517DA2</color>
+    <color name="tf_toolbar_subtitle">#D7E6F3</color>
+    <color name="tf_background">#FFFFFF</color>
+    <color name="tf_section_gap">#F0F2F5</color>
+    <color name="tf_text_primary">#222222</color>
+    <color name="tf_text_secondary">#8A8A8A</color>
+    <color name="tf_icon">#8E959B</color>
+    <color name="tf_divider">#E6E6E6</color>
+    <color name="tf_online">#4FAE4E</color>
+    <color name="tf_read_check">#4FAE4E</color>
+    <color name="tf_badge">#3390EC</color>
+    <color name="tf_badge_muted">#B8BCC0</color>
+    <color name="tf_danger">#E53935</color>
+    <color name="tf_avatar_picker">#E8F1FB</color>
+
+    <!-- Chat screen -->
+    <color name="tf_chat_bg">#D6E2EA</color>
+    <color name="tf_bubble_in">#FFFFFF</color>
+    <color name="tf_bubble_out">#EFFDDE</color>
+    <color name="tf_bubble_in_meta">#A1AAB3</color>
+    <color name="tf_bubble_out_meta">#5DB054</color>
+    <color name="tf_date_pill">#664E6A80</color>
+    <color name="tf_input_bar">#FFFFFF</color>
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Talkflow palette (night). -->
+    <color name="tf_primary">#5EB5F7</color>
+    <color name="tf_toolbar">#232E3C</color>
+    <color name="tf_toolbar_subtitle">#7F91A4</color>
+    <color name="tf_background">#17212B</color>
+    <color name="tf_section_gap">#0E1621</color>
+    <color name="tf_text_primary">#FFFFFF</color>
+    <color name="tf_text_secondary">#7F91A4</color>
+    <color name="tf_icon">#7F91A4</color>
+    <color name="tf_divider">#0F1A24</color>
+    <color name="tf_online">#5EB5F7</color>
+    <color name="tf_read_check">#5EB5F7</color>
+    <color name="tf_badge">#4082BC</color>
+    <color name="tf_badge_muted">#3A4A5A</color>
+    <color name="tf_danger">#EF5350</color>
+    <color name="tf_avatar_picker">#22303F</color>
+
+    <color name="tf_chat_bg">#0E1621</color>
+    <color name="tf_bubble_in">#182533</color>
+    <color name="tf_bubble_out">#2B5278</color>
+    <color name="tf_bubble_in_meta">#6D7F8F</color>
+    <color name="tf_bubble_out_meta">#7DA8D3</color>
+    <color name="tf_date_pill">#661E2C3A</color>
+    <color name="tf_input_bar">#17212B</color>
+</resources>

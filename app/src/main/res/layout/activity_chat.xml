@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tf_chat_bg"
+    android:orientation="vertical"
+    tools:context=".ChatActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tf_toolbar"
+        android:theme="@style/ThemeOverlay.Talkflow.Toolbar"
+        app:liftOnScroll="false">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Talkflow.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
+            app:menu="@menu/menu_chat"
+            app:navigationIcon="@drawable/ic_arrow_back">
+
+            <LinearLayout
+                android:id="@+id/chat_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/avatar"
+                    style="@style/Talkflow.Avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="15sp"
+                    tools:backgroundTint="#65AADD"
+                    tools:text="AJ" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chat_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:text="Alice Johnson" />
+
+                    <TextView
+                        android:id="@+id/chat_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textColor="@color/tf_toolbar_subtitle"
+                        android:textSize="13sp"
+                        tools:text="online" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingVertical="6dp"
+        tools:listitem="@layout/item_message_in" />
+
+    <LinearLayout
+        android:id="@+id/input_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tf_input_bar"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingHorizontal="2dp">
+
+        <ImageButton
+            android:id="@+id/emoji_button"
+            style="@style/Talkflow.InputIcon"
+            android:contentDescription="@string/emoji"
+            android:src="@drawable/ic_emoji" />
+
+        <EditText
+            android:id="@+id/message_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/hint_message"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="6"
+            android:minHeight="52dp"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="14dp"
+            android:textColor="@color/tf_text_primary"
+            android:textColorHint="@color/tf_text_secondary"
+            android:textSize="17sp" />
+
+        <ImageButton
+            android:id="@+id/attach_button"
+            style="@style/Talkflow.InputIcon"
+            android:contentDescription="@string/attach"
+            android:rotation="45"
+            android:src="@drawable/ic_attach" />
+
+        <ImageButton
+            android:id="@+id/send_button"
+            style="@style/Talkflow.InputIcon"
+            android:contentDescription="@string/record_voice"
+            android:src="@drawable/ic_mic" />
+    </LinearLayout>
+</LinearLayout>

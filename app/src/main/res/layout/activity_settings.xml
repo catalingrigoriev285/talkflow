@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tf_section_gap"
+    android:orientation="vertical"
+    tools:context=".SettingsActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tf_toolbar"
+        android:theme="@style/ThemeOverlay.Talkflow.Toolbar"
+        app:liftOnScroll="false">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Talkflow.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/settings_title" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tf_background"
+            android:orientation="vertical">
+
+            <!-- Profile header: continues the toolbar color, scrolls away beneath it. -->
+            <LinearLayout
+                android:id="@+id/profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/tf_toolbar"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:id="@+id/avatar"
+                    style="@style/Talkflow.Avatar"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:textSize="22sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sample_profile_name"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/status_online"
+                        android:textColor="@color/tf_toolbar_subtitle"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/change_photo_fab"
+                    style="@style/Widget.Talkflow.Fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/add_profile_photo"
+                    android:src="@drawable/ic_camera"
+                    app:backgroundTint="@color/white"
+                    app:fabSize="mini"
+                    app:tint="@color/tf_icon" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/Talkflow.SectionHeader"
+                android:text="@string/section_account" />
+
+            <LinearLayout
+                android:id="@+id/row_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_profile_phone"
+                    android:textColor="@color/tf_text_primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/label_phone"
+                    android:textColor="@color/tf_text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sample_profile_username"
+                    android:textColor="@color/tf_text_primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/label_username"
+                    android:textColor="@color/tf_text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_bio"
+                    android:textColor="@color/tf_text_primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/bio_placeholder"
+                    android:textColor="@color/tf_text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View style="@style/Talkflow.SectionGap" />
+
+            <TextView
+                style="@style/Talkflow.SectionHeader"
+                android:text="@string/section_settings" />
+
+            <TextView
+                android:id="@+id/row_notifications"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_notifications"
+                android:text="@string/settings_notifications" />
+
+            <TextView
+                android:id="@+id/row_privacy"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_lock"
+                android:text="@string/settings_privacy" />
+
+            <TextView
+                android:id="@+id/row_data"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_storage"
+                android:text="@string/settings_data" />
+
+            <TextView
+                android:id="@+id/row_chat_settings"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_chat"
+                android:text="@string/settings_chat" />
+
+            <LinearLayout
+                android:id="@+id/row_night_mode"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    style="@style/Talkflow.SettingsRow"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:drawableStart="@drawable/ic_moon"
+                    android:focusable="false"
+                    android:text="@string/settings_night_mode" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switch_night_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/row_devices"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_devices"
+                android:text="@string/settings_devices" />
+
+            <TextView
+                android:id="@+id/row_language"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_language"
+                android:text="@string/settings_language" />
+
+            <View style="@style/Talkflow.SectionGap" />
+
+            <TextView
+                style="@style/Talkflow.SectionHeader"
+                android:text="@string/section_help" />
+
+            <TextView
+                android:id="@+id/row_ask_question"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_chat"
+                android:text="@string/help_ask" />
+
+            <TextView
+                android:id="@+id/row_faq"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_help"
+                android:text="@string/help_faq" />
+
+            <TextView
+                android:id="@+id/row_privacy_policy"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_info"
+                android:text="@string/help_privacy_policy" />
+
+            <View style="@style/Talkflow.SectionGap" />
+
+            <TextView
+                android:id="@+id/row_logout"
+                style="@style/Talkflow.SettingsRow"
+                android:drawableStart="@drawable/ic_logout"
+                android:drawableTint="@color/tf_danger"
+                android:text="@string/log_out"
+                android:textColor="@color/tf_danger" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/tf_section_gap"
+                android:gravity="center"
+                android:paddingVertical="16dp"
+                android:text="@string/app_version"
+                android:textColor="@color/tf_text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_main">
+        <item
+            android:id="@+id/nav_new_group"
+            android:icon="@drawable/ic_group"
+            android:title="@string/nav_new_group" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_person"
+            android:title="@string/nav_contacts" />
+        <item
+            android:id="@+id/nav_calls"
+            android:icon="@drawable/ic_call"
+            android:title="@string/nav_calls" />
+        <item
+            android:id="@+id/nav_saved"
+            android:icon="@drawable/ic_bookmark"
+            android:title="@string/nav_saved" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nav_settings" />
+    </group>
+    <group android:id="@+id/group_extra">
+        <item
+            android:id="@+id/nav_invite"
+            android:icon="@drawable/ic_person_add"
+            android:title="@string/nav_invite" />
+        <item
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/ic_help"
+            android:title="@string/nav_faq" />
+    </group>
+</menu>
