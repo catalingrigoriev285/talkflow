@@ -87,6 +87,7 @@ public class ChatListActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         if (user == null) return;
+        ensureProfile(user);
         listenToChats();
         listenToProfile();
     }

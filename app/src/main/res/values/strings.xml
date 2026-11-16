@@ -53,7 +53,7 @@
     <string name="no_chats">No chats yet.\nTap the pencil to start a conversation.</string>
     <string name="new_chat_hint">Friend\'s email</string>
     <string name="start_chat">Start chat</string>
-    <string name="user_not_found">No Talkflow user with that email</string>
+    <string name="user_not_found">No Talkflow user with that email. They need to sign up and open Talkflow at least once.</string>
     <string name="cant_chat_with_self">That\'s your own email</string>
 
     <!-- Chat -->

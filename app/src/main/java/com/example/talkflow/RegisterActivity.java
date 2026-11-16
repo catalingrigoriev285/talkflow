@@ -94,8 +94,10 @@ public class RegisterActivity extends BaseActivity {
         FirebaseFirestore.getInstance().collection(USERS).document(user.getUid()).set(profile)
                 .addOnSuccessListener(v -> openClearingTask(ChatListActivity.class))
                 .addOnFailureListener(e -> {
-                    registerButton.setEnabled(true);
+                    // The account exists now, so stay signed in; the chat list retries the
+                    // profile and shows the error if it still fails.
                     Toast.makeText(this, authErrorMessage(this, e), Toast.LENGTH_LONG).show();
+                    openClearingTask(ChatListActivity.class);
                 });
     }
 

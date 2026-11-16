@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +24,18 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Shared base for every Talkflow screen: edge-to-edge window insets,
@@ -105,6 +112,34 @@ public abstract class BaseActivity extends AppCompatActivity {
             openClearingTask(LoginActivity.class);
         }
         return user;
+    }
+
+    /**
+     * Makes sure users/{uid} exists with the sign-in email, so other people can find this
+     * account by email. Repairs accounts whose profile was never saved, for example ones
+     * created before Firestore or its rules were set up. Never overwrites the phone number.
+     */
+    protected void ensureProfile(FirebaseUser user) {
+        String email = user.getEmail() == null ? "" : user.getEmail().toLowerCase(Locale.ROOT);
+        if (email.isEmpty()) return;
+        DocumentReference ref = FirebaseFirestore.getInstance().collection(USERS).document(user.getUid());
+        ref.get().addOnSuccessListener(doc -> {
+            Map<String, Object> fixes = new HashMap<>();
+            if (!email.equals(doc.getString("email"))) fixes.put("email", email);
+            String name = doc.getString("name");
+            if (name == null || name.trim().isEmpty()) {
+                String displayName = user.getDisplayName();
+                fixes.put("name", displayName == null || displayName.trim().isEmpty()
+                        ? email.substring(0, email.indexOf('@') > 0 ? email.indexOf('@') : email.length())
+                        : displayName);
+            }
+            if (!doc.exists()) fixes.put("createdAt", FieldValue.serverTimestamp());
+            if (fixes.isEmpty()) return;
+            if (!fixes.containsKey("email")) fixes.put("email", email); // rules check it on every write
+            ref.set(fixes, SetOptions.merge()).addOnFailureListener(e ->
+                    Toast.makeText(this, authErrorMessage(this, e), Toast.LENGTH_LONG).show());
+        }).addOnFailureListener(e ->
+                Toast.makeText(this, authErrorMessage(this, e), Toast.LENGTH_LONG).show());
     }
 
     /** Opens a screen as the only one in the back stack (after login, register or logout). */
