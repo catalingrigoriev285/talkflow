@@ -15,7 +15,8 @@ const {getFirestore, FieldValue} = require("firebase-admin/firestore");
 const {getMessaging} = require("firebase-admin/messaging");
 
 initializeApp();
-setGlobalOptions({maxInstances: 10});
+// Must sit inside the Firestore database's location (eur3 multi-region → europe-west1).
+setGlobalOptions({region: "europe-west1", maxInstances: 10});
 
 // Errors meaning a token will never work again, so it can be removed.
 const DEAD_TOKEN_ERRORS = new Set([
