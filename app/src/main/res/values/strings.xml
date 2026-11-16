@@ -4,8 +4,8 @@
     <string name="coming_soon">Coming soon</string>
 
     <!-- Login -->
-    <string name="login_subtitle">Welcome back! Sign in with your phone number or username to continue.</string>
-    <string name="hint_phone_or_username">Phone or username</string>
+    <string name="login_subtitle">Welcome back! Sign in with your email to continue.</string>
+    <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="no_account">Don\'t have an account?</string>
@@ -29,6 +29,14 @@
     <string name="error_required">This field is required</string>
     <string name="error_password_short">Use at least 6 characters</string>
     <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="error_invalid_email">Enter a valid email</string>
+    <string name="error_network">No internet connection. Try again.</string>
+    <string name="error_wrong_credentials">Wrong email or password</string>
+    <string name="error_email_in_use">An account with this email already exists</string>
+    <string name="error_weak_password">This password is too weak</string>
+    <string name="error_generic">Something went wrong: %1$s</string>
+    <string name="error_enter_email_first">Enter your email first</string>
+    <string name="reset_email_sent">Password reset link sent to %1$s</string>
 
     <!-- Chat list -->
     <string name="open_menu">Open menu</string>
@@ -42,6 +50,11 @@
     <string name="nav_invite">Invite Friends</string>
     <string name="nav_faq">Talkflow Features</string>
     <string name="toggle_night_mode">Toggle night mode</string>
+    <string name="no_chats">No chats yet.\nTap the pencil to start a conversation.</string>
+    <string name="new_chat_hint">Friend\'s email</string>
+    <string name="start_chat">Start chat</string>
+    <string name="user_not_found">No Talkflow user with that email</string>
+    <string name="cant_chat_with_self">That\'s your own email</string>
 
     <!-- Chat -->
     <string name="hint_message">Message</string>
@@ -61,7 +74,7 @@
     <string name="section_settings">Settings</string>
     <string name="section_help">Help</string>
     <string name="label_phone">Tap to change phone number</string>
-    <string name="label_username">Username</string>
+    <string name="label_email">Email</string>
     <string name="label_bio">Bio</string>
     <string name="bio_placeholder">Add a few words about yourself</string>
     <string name="settings_notifications">Notifications and Sounds</string>
@@ -78,9 +91,4 @@
     <string name="log_out_confirm">Are you sure you want to log out?</string>
     <string name="cancel">Cancel</string>
     <string name="app_version">Talkflow for Android v1.0</string>
-
-    <!-- Sample profile shown in templates -->
-    <string name="sample_profile_name">Alex Morgan</string>
-    <string name="sample_profile_phone">+1 234 567 8900</string>
-    <string name="sample_profile_username">@alexmorgan</string>
 </resources>

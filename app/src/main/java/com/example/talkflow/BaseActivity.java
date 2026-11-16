@@ -1,7 +1,10 @@
 package com.example.talkflow;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,13 +16,37 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
- * Shared base for every Talkflow screen: edge-to-edge window insets and
- * Telegram-style colored initials avatars.
+ * Shared base for every Talkflow screen: edge-to-edge window insets,
+ * Telegram-style colored initials avatars and Firebase helpers.
+ *
+ * Firestore layout:
+ * <pre>
+ * users/{uid}                    name, email (lowercase), phone, createdAt
+ * chats/{chatId}                 members [uid, uid], names {uid: name}, lastMessage,
+ *                                lastMessageAt, lastSenderId, unread {uid: count}
+ * chats/{chatId}/messages/{id}   senderId, text, createdAt
+ * </pre>
  */
 public abstract class BaseActivity extends AppCompatActivity {
+
+    static final String USERS = "users";
+    static final String CHATS = "chats";
+    static final String MESSAGES = "messages";
 
     /** Telegram's classic avatar palette. */
     private static final int[] AVATAR_COLORS = {
@@ -65,6 +92,69 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected boolean isNightMode() {
         int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return mode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    /**
+     * Returns the signed-in user, or sends the user to the login screen and returns null.
+     * Screens that need an account call this first in onCreate.
+     */
+    @Nullable
+    protected FirebaseUser requireUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            openClearingTask(LoginActivity.class);
+        }
+        return user;
+    }
+
+    /** Opens a screen as the only one in the back stack (after login, register or logout). */
+    protected void openClearingTask(Class<?> activity) {
+        Intent intent = new Intent(this, activity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    /** One chat per pair of users: the id is both uids sorted and joined with "_". */
+    static String chatIdFor(String uidA, String uidB) {
+        List<String> members = membersFor(uidA, uidB);
+        return members.get(0) + "_" + members.get(1);
+    }
+
+    /** Chat members, always sorted so security rules can match them against the chat id. */
+    static List<String> membersFor(String uidA, String uidB) {
+        return uidA.compareTo(uidB) < 0 ? Arrays.asList(uidA, uidB) : Arrays.asList(uidB, uidA);
+    }
+
+    /** Turns Firebase errors into short messages for the user. */
+    static String authErrorMessage(Context context, Exception e) {
+        if (e instanceof FirebaseNetworkException) {
+            return context.getString(R.string.error_network);
+        } else if (e instanceof FirebaseAuthUserCollisionException) {
+            return context.getString(R.string.error_email_in_use);
+        } else if (e instanceof FirebaseAuthWeakPasswordException) {
+            return context.getString(R.string.error_weak_password);
+        } else if (e instanceof FirebaseAuthInvalidUserException
+                || e instanceof FirebaseAuthInvalidCredentialsException) {
+            return context.getString(R.string.error_wrong_credentials);
+        }
+        return context.getString(R.string.error_generic, e.getLocalizedMessage());
+    }
+
+    /** Chat list style: "14:05" today, "Mon" this week, "12.11.26" otherwise. */
+    static String formatChatTime(@Nullable Date date) {
+        if (date == null) return "";
+        long millis = date.getTime();
+        long age = System.currentTimeMillis() - millis;
+        String pattern;
+        if (DateUtils.isToday(millis)) {
+            pattern = "HH:mm";
+        } else if (age < 6 * DateUtils.DAY_IN_MILLIS) {
+            pattern = "EEE";
+        } else {
+            pattern = "dd.MM.yy";
+        }
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(date);
     }
 
     /** Shows the user's initials on a circle colored consistently from their name. */

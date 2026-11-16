@@ -46,6 +46,7 @@
                 tools:text="12:42" />
 
             <ImageView
+                android:id="@+id/message_status"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="3dp"

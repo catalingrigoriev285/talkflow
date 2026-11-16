@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="@string/sample_profile_name"
+        tools:text="Alex Morgan"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -44,14 +45,16 @@
         app:layout_constraintTop_toBottomOf="@id/header_avatar" />
 
     <TextView
-        android:id="@+id/header_phone"
+        android:id="@+id/header_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="@string/sample_profile_phone"
+        tools:text="alex@example.com"
         android:textColor="@color/tf_toolbar_subtitle"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:ellipsize="end"
+        android:singleLine="true"
         app:layout_constraintTop_toBottomOf="@id/header_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

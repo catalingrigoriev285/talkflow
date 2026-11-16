@@ -3,18 +3,22 @@ package com.example.talkflow;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends BaseActivity {
 
-    private TextInputLayout loginLayout;
+    private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
-    private TextInputEditText loginInput;
+    private TextInputEditText emailInput;
     private TextInputEditText passwordInput;
+    private View loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +26,13 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         setupEdgeToEdge(findViewById(R.id.scroll), findViewById(R.id.bottom_bar), true);
 
-        loginLayout = findViewById(R.id.login_layout);
+        emailLayout = findViewById(R.id.login_layout);
         passwordLayout = findViewById(R.id.password_layout);
-        loginInput = findViewById(R.id.login_input);
+        emailInput = findViewById(R.id.login_input);
         passwordInput = findViewById(R.id.password_input);
+        loginButton = findViewById(R.id.login_button);
 
-        findViewById(R.id.login_button).setOnClickListener(v -> attemptLogin());
+        loginButton.setOnClickListener(v -> attemptLogin());
         passwordInput.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 attemptLogin();
@@ -37,21 +42,37 @@ public class LoginActivity extends BaseActivity {
         });
         findViewById(R.id.sign_up_link).setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class)));
-        findViewById(R.id.forgot_password).setOnClickListener(v ->
-                Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show());
+        findViewById(R.id.forgot_password).setOnClickListener(v -> sendPasswordReset());
     }
 
     private void attemptLogin() {
-        String login = text(loginInput);
+        String email = text(emailInput);
         String password = text(passwordInput);
-        loginLayout.setError(TextUtils.isEmpty(login) ? getString(R.string.error_required) : null);
+        boolean emailOk = Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        emailLayout.setError(emailOk ? null : getString(R.string.error_invalid_email));
         passwordLayout.setError(TextUtils.isEmpty(password) ? getString(R.string.error_required) : null);
-        if (TextUtils.isEmpty(login) || TextUtils.isEmpty(password)) return;
+        if (!emailOk || TextUtils.isEmpty(password)) return;
 
-        // TODO: authenticate against the backend.
-        Intent intent = new Intent(this, ChatListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        loginButton.setEnabled(false);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(result -> openClearingTask(ChatListActivity.class))
+                .addOnFailureListener(e -> {
+                    loginButton.setEnabled(true);
+                    passwordLayout.setError(authErrorMessage(this, e));
+                });
+    }
+
+    private void sendPasswordReset() {
+        String email = text(emailInput);
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailLayout.setError(getString(R.string.error_enter_email_first));
+            return;
+        }
+        emailLayout.setError(null);
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnSuccessListener(v -> Toast.makeText(this,
+                        getString(R.string.reset_email_sent, email), Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e -> emailLayout.setError(authErrorMessage(this, e)));
     }
 
     private static String text(TextInputEditText input) {

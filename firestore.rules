@@ -1,0 +1,51 @@
+rules_version = '2';
+
+// Security rules for Talkflow. Paste into Firebase console → Firestore Database → Rules,
+// or deploy with: firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // A chat id is the two member uids, sorted and joined with "_".
+    function isChatMember(chatId) {
+      return signedIn() && request.auth.uid in chatId.split('_');
+    }
+
+    // Public profiles: any signed-in user can look others up by email.
+    // Users can only write their own profile, with their own sign-in email.
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.email == request.auth.token.email.lower();
+      allow delete: if false;
+    }
+
+    match /chats/{chatId} {
+      // Reading a single chat (even one not created yet) only needs membership by id;
+      // listing chats requires the query to filter on members.
+      allow get: if isChatMember(chatId);
+      allow list: if signedIn() && request.auth.uid in resource.data.members;
+
+      allow create: if isChatMember(chatId)
+        && request.resource.data.members.size() == 2
+        && chatId == request.resource.data.members[0] + '_' + request.resource.data.members[1];
+      allow update: if isChatMember(chatId)
+        && request.resource.data.members == resource.data.members;
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isChatMember(chatId);
+        allow create: if isChatMember(chatId)
+          && request.resource.data.senderId == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 4096
+          && request.resource.data.createdAt == request.time;
+        allow update, delete: if false;
+      }
+    }
+  }
+}

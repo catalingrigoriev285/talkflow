@@ -66,9 +66,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/profile_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/sample_profile_name"
+                        tools:text="Alex Morgan"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -108,9 +109,10 @@
                 android:paddingVertical="10dp">
 
                 <TextView
+                    android:id="@+id/phone_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sample_profile_phone"
+                    tools:text="+1 234 567 8900"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp" />
 
@@ -124,7 +126,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/row_username"
+                android:id="@+id/row_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -133,9 +135,10 @@
                 android:paddingVertical="10dp">
 
                 <TextView
+                    android:id="@+id/email_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sample_profile_username"
+                    tools:text="alex@example.com"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp" />
 
@@ -143,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="@string/label_username"
+                    android:text="@string/label_email"
                     android:textColor="@color/tf_text_secondary"
                     android:textSize="13sp" />
             </LinearLayout>

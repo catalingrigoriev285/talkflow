@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "463722490576",
+    "project_id": "talkflow-158c6",
+    "storage_bucket": "talkflow-158c6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463722490576:android:8c33a64c7759532a340cd5",
+        "android_client_info": {
+          "package_name": "com.example.talkflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZAq3V9PS9M_xhm3oIJdRq5zsRrUVU_Xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

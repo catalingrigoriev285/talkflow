@@ -11,14 +11,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-/** Splash screen: shows the app name briefly, then opens the login screen. */
+import com.google.firebase.auth.FirebaseAuth;
+
+/** Splash screen: shows the app name briefly, then opens the chats (signed in) or login. */
 public class MainActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY_MS = 1200;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable openLogin = () -> {
-        startActivity(new Intent(this, LoginActivity.class));
+        boolean signedIn = FirebaseAuth.getInstance().getCurrentUser() != null;
+        startActivity(new Intent(this, signedIn ? ChatListActivity.class : LoginActivity.class));
         finish();
     };
 
